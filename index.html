@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>اختبار سرعة الإنترنت</title>
+  <style>
+    body {
+      background-color: #f9f9f9;
+      font-family: Tahoma, sans-serif;
+      text-align: center;
+      padding: 40px;
+      direction: rtl;
+      color: #333;
+    }
+
+    h1 {
+      color: #222;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 25px;
+    }
+
+    button {
+      padding: 10px 25px;
+      font-size: 16px;
+      background-color: #2b7a78;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #205f5c;
+    }
+
+    .result {
+      font-size: 18px;
+      margin-top: 30px;
+      color: #00695c;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>اختبار سرعة الإنترنت</h1>
+  <p>اضغط الزر لقياس سرعة التحميل التقريبية</p>
+
+  <button onclick="startTest()">ابدأ الاختبار</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    function startTest() {
+      const resultDiv = document.getElementById("result");
+      resultDiv.textContent = "جارٍ قياس السرعة...";
+
+      const image = new Image();
+      const imageSize = 500000; // 500 KB
+
+      const start = new Date().getTime();
+      const noCache = "?t=" + start;
+
+      image.onload = function () {
+        const end = new Date().getTime();
+        const duration = (end - start) / 1000;
+        const bitsLoaded = imageSize * 8;
+        const speedMbps = (bitsLoaded / duration / 1024 / 1024).toFixed(2);
+        resultDiv.textContent = `سرعة التحميل التقريبية: ${speedMbps} ميغابت/ثانية`;
+      };
+
+      image.onerror = function () {
+        resultDiv.textContent = "تعذّر الاتصال. تأكد من وجود الإنترنت.";
+      };
+
+      image.src = "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg" + noCache;
+    }
+  </script>
+
+</body>
+</html>
